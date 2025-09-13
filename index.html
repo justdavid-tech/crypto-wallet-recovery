@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" href="styles.css">
-<title>Recovery Portal</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css">
+  <title>Recovery Portal</title>
 </head>
 <body>
   <div class="wrap">
@@ -14,11 +14,22 @@
       <form onsubmit="loadDashboard(event)">
         <div class="form-group">
           <label>Case Method</label>
-          <input id="formCaseId" placeholder="e.g. CashApp" required />
+          <select id="formCaseId" required>
+            <option value="CashApp">CashApp</option>
+            <option value="PayPal">PayPal</option>
+            <option value="Venmo">Venmo</option>
+            <option value="Zelle">Zelle</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+            <option value="Crypto">Crypto</option>
+          </select>
         </div>
         <div class="form-group">
           <label>Assigned Analyst</label>
           <input id="formAnalyst" placeholder="e.g. Alex Morgan" required />
+        </div>
+        <div class="form-group">
+          <label>Amount ($)</label>
+          <input id="formAmount" type="number" placeholder="e.g. 3000" required />
         </div>
         <button class="btn" type="submit">Start Dashboard</button>
       </form>
@@ -30,10 +41,9 @@
     <!-- STEP 2: Dashboard -->
     <div id="dashboard" class="hidden">
       <header>
-        <div class="badge">PORTAL</div>
+        <div class="badge">[PORTAL]</div>
         <div>
           <h1>Recovery Tracker</h1>
-          <p class="lead">This is a simulated dashboard to find wallet addresses and also to recover accounts.</p>
         </div>
       </header>
 
@@ -56,11 +66,11 @@
 
           <div class="list" style="margin-top:18px">
             <div class="row">
-              <div><div style="font-weight:700">Traced Wallets</div><div class="muted">Addresses we are tracing</div></div>
-              <div id="traceCount" style="font-weight:700">0</div>
+              <div><div style="font-weight:700">Traced Account</div><div class="muted">Addresses we are tracing</div></div>
+              <div id="traceCount" style="font-weight:700">1</div>
             </div>
             <div class="row">
-              <div><div style="font-weight:700">Transactions Found</div><div class="muted">Potentially related TXIDs</div></div>
+              <div><div style="font-weight:700">Transactions Found</div><div class="muted">Potentially related Transactions</div></div>
               <div id="txCount" style="font-weight:700">0</div>
             </div>
             <div class="row">
@@ -72,6 +82,7 @@
           <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
             <button class="btn" onclick="startDemo()">Find Address</button>
             <button class="secondary" onclick="resetDemo()">Reset</button>
+            <button class="btn" onclick="generateTransactions()">Transactions</button>
           </div>
 
           <div style="margin-top:16px">
@@ -83,7 +94,7 @@
         <aside class="card">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
             <div style="font-weight:700">Case Info</div>
-            <div class="demo-tag">SAMPLE</div>
+            <div class="demo-tag">SIM</div>
           </div>
 
           <div style="margin-top:10px" class="case">
@@ -92,20 +103,14 @@
             <div style="height:10px"></div>
             <div style="font-weight:700">Assigned Analyst</div>
             <div id="analyst" class="muted">—</div>
+            <div style="height:10px"></div>
+            <div style="font-weight:700">Amount</div>
+            <div id="amount" class="muted">—</div>
           </div>
 
           <div style="margin-top:12px">
-            <div style="font-weight:700;margin-bottom:8px">Recent TXIDs</div>
+            <div style="font-weight:700;margin-bottom:8px">Recent Transactions</div>
             <div id="txList" style="display:flex;flex-direction:column;gap:8px"></div>
-          </div>
-
-          <div style="margin-top:12px">
-            <div style="font-weight:700">Generate TX</div>
-            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-              <input id="demoAddr" placeholder="Enter placeholder address"
-                style="flex:1;min-width:200px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#dceffd" />
-              <button class="btn" onclick="addDemoTx()">Add TX</button>
-            </div>
           </div>
         </aside>
       </div>

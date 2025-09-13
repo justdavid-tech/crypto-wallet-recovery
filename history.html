@@ -1,104 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Recovery History</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --bg: #0f1724;
-      --card: #0b1220;
-      --accent: #ff6b00;
-      --muted: #94a3b8;
-    }
-    body {
-      background-color: var(--bg);
-      color: var(--muted);
-    }
-    .card {
-      background-color: var(--card);
-    }
-    .btn-accent {
-      background-color: var(--accent);
-      color: #fff;
-    }
-    .btn-accent:hover {
-      background-color: #e55f00;
-    }
-    .status-success {
-      background-color: rgba(34,197,94,0.15);
-      color: #22c55e;
-    }
-    .status-failed {
-      background-color: rgba(239,68,68,0.15);
-      color: #ef4444;
-    }
-    .status-expired {
-      background-color: rgba(234,179,8,0.15);
-      color: #eab308;
-    }
-  </style>
+  <!-- point to the same styles.css (the neon hacker file above) -->
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="font-sans antialiased">
+<body>
+  <div class="history-wrap">
+    <header style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="badge">[PORTAL]</div>
+        <h1 style="margin:0;font-size:22px;color:var(--accent);text-shadow:0 0 6px var(--accent)">Account Recovery History</h1>
+      </div>
+      <a href="index.html" class="back-btn">← Back</a>
+    </header>
 
-  <!-- Page container -->
-  <div class="max-w-6xl mx-auto py-12 px-6">
-    
-    <!-- Title -->
-    <h1 class="text-3xl font-bold text-center mb-8 text-white">
-      Account Recovery History
-    </h1>
+    <div class="history-card card">
+      <table aria-label="Recovery history table">
+        <thead>
+          <tr>
+            <th>Date & Time</th>
+            <th>Method</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th>Gmail</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="history-table">
+          <!-- rows injected by JS -->
+        </tbody>
+      </table>
+    </div>
 
-    <!-- Table -->
-    <div class="overflow-x-auto shadow-lg rounded-2xl card text-white">
-  <table class="min-w-full border-collapse text-left">
-    <thead class="bg-[var(--accent)] text-white text-xs sm:text-sm uppercase tracking-wide">
-      <tr>
-        <th class="py-3 px-4 sm:px-6">Date & Time</th>
-        <th class="py-3 px-4 sm:px-6">Method</th>
-        <th class="py-3 px-4 sm:px-6">Status</th>
-        <th class="py-3 px-4 sm:px-6">Location</th>
-        <th class="py-3 px-4 sm:px-6">Gmail</th>
-        <th class="py-3 px-4 sm:px-6">Amount</th>
-      </tr>
-    </thead>
-    <tbody id="history-table" class="divide-y divide-gray-600 text-xs sm:text-sm">
-      <!-- Rows injected -->
-    </tbody>
-  </table>
-</div>
-<a href="/index.html" class="text-white font-black text-xl btn-small cursor-pointer">
-  Back
-</a>
-
+    <p class="history-note">Make sure <code>info.json</code> (your transactions file) sits in the same folder as this page.</p>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      fetch("info.json")
-        .then(res => res.json())
-        .then(data => {
-          const tableBody = document.getElementById("history-table");
+    document.addEventListener('DOMContentLoaded', () => {
+      const tableBody = document.getElementById('history-table');
 
-          data.forEach(item => {
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
-              <td class="px-6 py-3">${item.dateTime}</td>
-              <td class="px-6 py-3">${item.method}</td>
-              <td class="px-6 py-3 ${item.status.toLowerCase() === 'successful' ? 'status-success' : 'status-failed'}">
-                ${item.status}
-              </td>
-              <td class="px-6 py-3">${item.location}</td>
-              <td class="px-6 py-3">${item.gmail || "—"}</td>
-              <td class="px-6 py-3 font-semibold text-white">${item.amount}</td>
-            `;
-
-            tableBody.appendChild(row);
-          });
+      fetch('info.json')
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to load info.json');
+          return res.json();
         })
-        .catch(err => console.error("Error loading JSON:", err));
+        .then(data => {
+          // optional: sort by date string if you want (here we keep original order)
+          data.forEach(item => {
+            const tr = document.createElement('tr');
+
+            const status = (item.status || '').toLowerCase();
+            let statusClass = 'status-pending';
+            if (status === 'successful' || status === 'success') statusClass = 'status-success';
+            else if (status === 'failed' || status === 'error') statusClass = 'status-failed';
+            else if (status === 'pending' || status === 'processing') statusClass = 'status-pending';
+
+            // amount: display as-is (dataset already has $)
+            const amountDisplay = item.amount ?? '—';
+
+            tr.innerHTML = `
+              <td>${item.dateTime ?? '—'}</td>
+              <td>${item.method ?? '—'}</td>
+              <td><span class="${statusClass}">${item.status ?? '—'}</span></td>
+              <td>${item.location ?? '—'}</td>
+              <td>${item.gmail ?? '—'}</td>
+              <td style="font-weight:700">${amountDisplay}</td>
+            `;
+            tableBody.appendChild(tr);
+          });
+
+          if (!data || data.length === 0) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = '<td colspan="6" style="padding:18px;color:var(--muted)">No history found in info.json</td>';
+            tableBody.appendChild(tr);
+          }
+        })
+        .catch(err => {
+          console.error('Error loading JSON:', err);
+          tableBody.innerHTML = `<tr><td colspan="6" style="padding:18px;color:var(--muted)">Error loading history. Check console and ensure <code>info.json</code> exists and is valid JSON.</td></tr>`;
+        });
     });
   </script>
 </body>

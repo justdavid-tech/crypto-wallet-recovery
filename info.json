@@ -20,7 +20,7 @@
   {
     "id": 3,
     "dateTime": "Sept 02, 2025 - 14:05",
-    "method": "Venmo",
+    "method": "PayPal", 
     "status": "successful",
     "location": "Berlin, Germany",
     "gmail": "em***@gmail.com",
@@ -47,7 +47,7 @@
   {
     "id": 6,
     "dateTime": "Sept 03, 2025 - 10:33",
-    "method": "Zelle",
+    "method": "PayPal", 
     "status": "successful",
     "location": "Toronto, Canada",
     "gmail": "ni***@gmail.com",
@@ -74,7 +74,7 @@
   {
     "id": 9,
     "dateTime": "Sept 05, 2025 - 07:25",
-    "method": "Venmo",
+    "method": "PayPal",
     "status": "successful",
     "location": "Rome, Italy",
     "gmail": "so***@gmail.com",
@@ -101,7 +101,7 @@
   {
     "id": 12,
     "dateTime": "Sept 06, 2025 - 20:36",
-    "method": "Zelle",
+    "method": "PayPal", 
     "status": "failed",
     "location": "Cape Town, South Africa",
     "gmail": "ch***@gmail.com",
@@ -119,7 +119,7 @@
   {
     "id": 14,
     "dateTime": "Sept 07, 2025 - 14:29",
-    "method": "CashApp",
+    "method": "PayPal", 
     "status": "failed",
     "location": "Mexico City, Mexico",
     "gmail": "fr***@gmail.com",
@@ -164,7 +164,7 @@
   {
     "id": 19,
     "dateTime": "Sept 10, 2025 - 07:37",
-    "method": "Zelle",
+    "method": "PayPal", 
     "status": "pending",
     "location": "Amsterdam, Netherlands",
     "gmail": "pe***@gmail.com",
@@ -184,7 +184,7 @@
     "dateTime": "Sept 11, 2025 - 11:08",
     "method": "CashApp",
     "status": "successful",
-    "location": "Dublin, Ireland",
+    "location": "Dublin, Ireland", 
     "gmail": "st***@gmail.com",
     "amount": "$7200"
   },
@@ -200,7 +200,7 @@
   {
     "id": 23,
     "dateTime": "Sept 12, 2025 - 09:55",
-    "method": "Venmo",
+    "method": "PayPal", 
     "status": "successful",
     "location": "Lisbon, Portugal",
     "gmail": "ul***@gmail.com",
@@ -227,7 +227,7 @@
   {
     "id": 26,
     "dateTime": "Sept 13, 2025 - 20:32",
-    "method": "Zelle",
+    "method": "PayPal", 
     "status": "failed",
     "location": "Warsaw, Poland",
     "gmail": "xa***@gmail.com",
@@ -245,7 +245,7 @@
   {
     "id": 28,
     "dateTime": "Sept 14, 2025 - 14:53",
-    "method": "CashApp",
+    "method": "PayPal", 
     "status": "successful",
     "location": "Prague, Czechia",
     "gmail": "zo***@gmail.com",
@@ -263,7 +263,7 @@
   {
     "id": 30,
     "dateTime": "Sept 15, 2025 - 18:36",
-    "method": "Venmo",
+    "method": "PayPal", 
     "status": "pending",
     "location": "Stockholm, Sweden",
     "gmail": "br***@gmail.com",
@@ -281,7 +281,7 @@
   {
     "id": 32,
     "dateTime": "Sept 16, 2025 - 19:20",
-    "method": "CashApp",
+    "method": "PayPal", 
     "status": "successful",
     "location": "Brussels, Belgium",
     "gmail": "de***@gmail.com",
@@ -308,7 +308,7 @@
   {
     "id": 35,
     "dateTime": "Sept 18, 2025 - 10:11",
-    "method": "Zelle",
+    "method": "PayPal", 
     "status": "successful",
     "location": "Kuala Lumpur, Malaysia",
     "gmail": "ge***@gmail.com",
