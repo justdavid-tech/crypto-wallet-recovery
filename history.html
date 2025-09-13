@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recovery History</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #ff6b00;
+      --muted: #94a3b8;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--muted);
+    }
+    .card {
+      background-color: var(--card);
+    }
+    .btn-accent {
+      background-color: var(--accent);
+      color: #fff;
+    }
+    .btn-accent:hover {
+      background-color: #e55f00;
+    }
+    .status-success {
+      background-color: rgba(34,197,94,0.15);
+      color: #22c55e;
+    }
+    .status-failed {
+      background-color: rgba(239,68,68,0.15);
+      color: #ef4444;
+    }
+    .status-expired {
+      background-color: rgba(234,179,8,0.15);
+      color: #eab308;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- Page container -->
+  <div class="max-w-6xl mx-auto py-12 px-6">
+    
+    <!-- Title -->
+    <h1 class="text-3xl font-bold text-center mb-8 text-white">
+      Account Recovery History
+    </h1>
+
+    <!-- Table -->
+    <div class="overflow-x-auto shadow-lg rounded-2xl card text-white">
+  <table class="min-w-full border-collapse text-left">
+    <thead class="bg-[var(--accent)] text-white text-xs sm:text-sm uppercase tracking-wide">
+      <tr>
+        <th class="py-3 px-4 sm:px-6">Date & Time</th>
+        <th class="py-3 px-4 sm:px-6">Method</th>
+        <th class="py-3 px-4 sm:px-6">Status</th>
+        <th class="py-3 px-4 sm:px-6">Location</th>
+        <th class="py-3 px-4 sm:px-6">Gmail</th>
+        <th class="py-3 px-4 sm:px-6">Amount</th>
+      </tr>
+    </thead>
+    <tbody id="history-table" class="divide-y divide-gray-600 text-xs sm:text-sm">
+      <!-- Rows injected -->
+    </tbody>
+  </table>
+</div>
+<a href="/index.html" class="text-white font-black text-xl btn-small cursor-pointer">
+  Back
+</a>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch("info.json")
+        .then(res => res.json())
+        .then(data => {
+          const tableBody = document.getElementById("history-table");
+
+          data.forEach(item => {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+              <td class="px-6 py-3">${item.dateTime}</td>
+              <td class="px-6 py-3">${item.method}</td>
+              <td class="px-6 py-3 ${item.status.toLowerCase() === 'successful' ? 'status-success' : 'status-failed'}">
+                ${item.status}
+              </td>
+              <td class="px-6 py-3">${item.location}</td>
+              <td class="px-6 py-3">${item.gmail || "—"}</td>
+              <td class="px-6 py-3 font-semibold text-white">${item.amount}</td>
+            `;
+
+            tableBody.appendChild(row);
+          });
+        })
+        .catch(err => console.error("Error loading JSON:", err));
+    });
+  </script>
+</body>
+</html>
